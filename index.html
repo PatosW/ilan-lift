@@ -85,11 +85,6 @@
     .exercise-card { background: var(--bg2); border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow); }
 
     .photo-wrap { position: relative; width: 100%; padding-top: 56.25%; background: var(--bg3); overflow: hidden; }
-    .photo-placeholder {
-      position: absolute; inset: 0; display: flex; align-items: center;
-      justify-content: center; font-size: 44px;
-      background: linear-gradient(135deg, #1a1d29, #0c0e14);
-    }
     .photo-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
     .photo-overlay {
       position: absolute; inset: 0;
@@ -100,17 +95,6 @@
       font-size: 17px; font-weight: 700; color: #fff;
       text-shadow: 0 2px 8px rgba(0,0,0,0.6);
     }
-
-    /* ─── MUSCLE DIAGRAM ─── */
-    .muscle-diagram { padding: 12px 16px 0; }
-    .muscle-diagram-title {
-      font-size: 11px; color: var(--muted); font-weight: 700;
-      text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px;
-    }
-    .muscle-views { display: flex; justify-content: center; gap: 20px; }
-    .muscle-view { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .muscle-view-label { font-size: 10px; color: var(--muted); font-weight: 500; letter-spacing: 0.5px; }
-    .muscle-views svg { width: 82px; height: auto; display: block; }
 
     /* ─── CARD META & BODY ─── */
     .card-meta {
@@ -289,7 +273,7 @@ const WD = {
     id: 'a', name: 'אימון א', sub: 'חזה + טריצפס + כתפיים',
     exercises: [
       {
-        name: 'לחיצת חזה עם משקולות', kw: 'dumbbell bench press',
+        name: 'לחיצת חזה עם משקולות', img: 'https://images.pexels.com/photos/1431282/pexels-photo-1431282.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'חזה', c:'#4e9fff' }, { l:'טריצפס', c:'#ff6b6b' }, { l:'כתפיים קדמיות', c:'#47ffa3' }],
         mk: ['chest','frontDelt','triceps'],
         setup: [
@@ -302,7 +286,7 @@ const WD = {
         sets: 3, reps: '12 חזרות', rest: 75
       },
       {
-        name: 'פתיחות משקולות בשיפוע', kw: 'incline dumbbell fly',
+        name: 'פתיחות משקולות בשיפוע', img: 'https://images.pexels.com/photos/3837781/pexels-photo-3837781.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'חזה עליון', c:'#4e9fff' }, { l:'כתפיים', c:'#47ffa3' }],
         mk: ['chest','frontDelt'],
         setup: [
@@ -315,7 +299,7 @@ const WD = {
         sets: 3, reps: '12 חזרות', rest: 75
       },
       {
-        name: 'דיפס משקל גוף', kw: 'dips triceps gym',
+        name: 'דיפס משקל גוף', img: 'https://images.pexels.com/photos/4162487/pexels-photo-4162487.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'טריצפס', c:'#ff6b6b' }, { l:'חזה', c:'#4e9fff' }, { l:'כתפיים', c:'#47ffa3' }],
         mk: ['triceps','chest','frontDelt'],
         setup: [
@@ -328,7 +312,7 @@ const WD = {
         sets: 3, reps: '10 חזרות', rest: 75
       },
       {
-        name: 'לחיצת כתפיים עם משקולות בישיבה', kw: 'shoulder press dumbbell',
+        name: 'לחיצת כתפיים עם משקולות בישיבה', img: 'https://images.pexels.com/photos/1229356/pexels-photo-1229356.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'דלתא קדמי', c:'#47ffa3' }, { l:'טריצפס', c:'#ff6b6b' }, { l:'טרפז', c:'#b47fff' }],
         mk: ['frontDelt','midDelt','triceps','traps'],
         setup: [
@@ -341,7 +325,7 @@ const WD = {
         sets: 3, reps: '12 חזרות', rest: 75
       },
       {
-        name: 'הרמות צדיות', kw: 'lateral raises shoulders',
+        name: 'הרמות צדיות', img: 'https://images.pexels.com/photos/3823063/pexels-photo-3823063.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'דלתא אמצעי', c:'#47ffa3' }, { l:'טרפז עליון', c:'#b47fff' }],
         mk: ['midDelt','traps'],
         setup: [
@@ -359,7 +343,7 @@ const WD = {
     id: 'b', name: 'אימון ב', sub: 'גב + ביצפס',
     exercises: [
       {
-        name: 'מתח רחב', kw: 'lat pulldown gym',
+        name: 'מתח רחב', img: 'https://images.pexels.com/photos/4162438/pexels-photo-4162438.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'לאטיסימוס', c:'#4e9fff' }, { l:'ביצפס', c:'#ff6b6b' }, { l:'גב עליון', c:'#b47fff' }],
         mk: ['lats','biceps','upperBack'],
         setup: [
@@ -372,7 +356,7 @@ const WD = {
         sets: 3, reps: '12 חזרות', rest: 75
       },
       {
-        name: 'חתירה חד-צדדית עם משקולת', kw: 'dumbbell row back',
+        name: 'חתירה חד-צדדית עם משקולת', img: 'https://images.pexels.com/photos/3838937/pexels-photo-3838937.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'גב רחב', c:'#4e9fff' }, { l:'ביצפס', c:'#ff6b6b' }, { l:'רומבואיד', c:'#b47fff' }],
         mk: ['lats','rhomboids','biceps'],
         setup: [
@@ -385,7 +369,7 @@ const WD = {
         sets: 3, reps: '12 חזרות', rest: 75
       },
       {
-        name: 'חתירה אופקית בכבל', kw: 'cable row back gym',
+        name: 'חתירה אופקית בכבל', img: 'https://images.pexels.com/photos/3837757/pexels-photo-3837757.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'גב אמצעי', c:'#4e9fff' }, { l:'ביצפס', c:'#ff6b6b' }, { l:'טרפז', c:'#b47fff' }],
         mk: ['upperBack','rhomboids','biceps'],
         setup: [
@@ -398,7 +382,7 @@ const WD = {
         sets: 3, reps: '12 חזרות', rest: 75
       },
       {
-        name: 'כפיפת ביצפס לסירוגין', kw: 'bicep curl dumbbell',
+        name: 'כפיפת ביצפס לסירוגין', img: 'https://images.pexels.com/photos/1552252/pexels-photo-1552252.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'ביצפס', c:'#ff6b6b' }, { l:'ברכיאליס', c:'#ffb347' }],
         mk: ['biceps'],
         setup: [
@@ -411,7 +395,7 @@ const WD = {
         sets: 3, reps: '12 חזרות', rest: 60
       },
       {
-        name: 'פייס פול בגלגלת', kw: 'face pull cable gym',
+        name: 'פייס פול בגלגלת', img: 'https://images.pexels.com/photos/4162451/pexels-photo-4162451.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'דלתא אחורי', c:'#47ffa3' }, { l:'כתף חיצונית', c:'#4e9fff' }, { l:'טרפז', c:'#b47fff' }],
         mk: ['rearDelt','traps','upperBack'],
         setup: [
@@ -429,7 +413,7 @@ const WD = {
     id: 'c', name: 'אימון ג', sub: 'פלג גוף עליון מלא + ליבה',
     exercises: [
       {
-        name: 'מתח (עם עזרה אם צריך)', kw: 'pull up bar gym',
+        name: 'מתח (עם עזרה אם צריך)', img: 'https://images.pexels.com/photos/3763874/pexels-photo-3763874.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'לאטיסימוס', c:'#4e9fff' }, { l:'ביצפס', c:'#ff6b6b' }, { l:'גב כללי', c:'#b47fff' }],
         mk: ['lats','biceps','upperBack'],
         setup: [
@@ -442,7 +426,7 @@ const WD = {
         sets: 3, reps: '8 חזרות', rest: 90
       },
       {
-        name: 'לחיצת משקולות בשיפוע', kw: 'incline dumbbell press',
+        name: 'לחיצת משקולות בשיפוע', img: 'https://images.pexels.com/photos/3837782/pexels-photo-3837782.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'חזה עליון', c:'#4e9fff' }, { l:'טריצפס', c:'#ff6b6b' }, { l:'כתפיים', c:'#47ffa3' }],
         mk: ['chest','frontDelt','triceps'],
         setup: [
@@ -455,7 +439,7 @@ const WD = {
         sets: 3, reps: '12 חזרות', rest: 75
       },
       {
-        name: 'חתירת מוט', kw: 'barbell row back',
+        name: 'חתירת מוט', img: 'https://images.pexels.com/photos/3837783/pexels-photo-3837783.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'גב רחב', c:'#4e9fff' }, { l:'ביצפס', c:'#ff6b6b' }, { l:'ירך אחורי', c:'#b47fff' }],
         mk: ['lats','upperBack','rhomboids','biceps','lowerBack'],
         setup: [
@@ -468,7 +452,7 @@ const WD = {
         sets: 3, reps: '12 חזרות', rest: 75
       },
       {
-        name: 'פלאנק', kw: 'plank core exercise',
+        name: 'פלאנק', img: 'https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'ליבה', c:'#e8ff47' }, { l:'בטן', c:'#47ffa3' }, { l:'גב תחתון', c:'#4e9fff' }],
         mk: ['abs','lowerBack','core'],
         setup: [
@@ -481,7 +465,7 @@ const WD = {
         sets: 3, reps: '45 שניות', rest: 60
       },
       {
-        name: "קראנץ' אופניים", kw: 'bicycle crunch abs',
+        name: "קראנץ' אופניים", img: 'https://images.pexels.com/photos/3823207/pexels-photo-3823207.jpeg?auto=compress&cs=tinysrgb&w=400',
         muscles: [{ l:'בטן אלכסוני', c:'#47ffa3' }, { l:'בטן', c:'#e8ff47' }, { l:'ירך קדמי', c:'#4e9fff' }],
         mk: ['abs','obliques'],
         setup: [
@@ -510,101 +494,6 @@ let timerSec  = 0;
 let timerTotal= 0;
 let timerCb   = null;
 let audioCtx  = null;
-
-// ════════════════════════════════════════════════════════════
-// MUSCLE DIAGRAM SVG
-// ════════════════════════════════════════════════════════════
-function muscleSVG(keys) {
-  const s = new Set(keys);
-
-  // Body anatomy shapes (shared by both views)
-  const BF   = '#1c1f30'; // body fill (dark blue-gray)
-  const BS   = '#2e3350'; // body stroke
-  const BSW  = '1.2';     // stroke width
-
-  // Color per muscle key: highlighted = accent, inactive = dark
-  const C = k => s.has(k) ? '#e8ff47' : '#252840';
-  const O = k => s.has(k) ? '0.88'   : '0.55';
-  // Glow filter for active muscles
-  const G = k => s.has(k) ? 'filter:drop-shadow(0 0 4px rgba(232,255,71,0.55))' : '';
-
-  // Shared body silhouette elements (front and back look the same from outside)
-  const bodyParts = `
-    <ellipse cx="40" cy="13" rx="9" ry="11" fill="${BF}" stroke="${BS}" stroke-width="${BSW}"/>
-    <rect x="36" y="23" width="8" height="8" rx="3" fill="${BF}" stroke="${BS}" stroke-width="${BSW}"/>
-    <ellipse cx="17" cy="34" rx="11" ry="9" fill="${BF}" stroke="${BS}" stroke-width="${BSW}"/>
-    <ellipse cx="63" cy="34" rx="11" ry="9" fill="${BF}" stroke="${BS}" stroke-width="${BSW}"/>
-    <path d="M22,28 L58,28 C60,52 57,82 55,102 L25,102 C23,82 20,52 22,28 Z" fill="${BF}" stroke="${BS}" stroke-width="${BSW}"/>
-    <rect x="4"  y="29" width="13" height="47" rx="6.5" fill="${BF}" stroke="${BS}" stroke-width="${BSW}"/>
-    <rect x="63" y="29" width="13" height="47" rx="6.5" fill="${BF}" stroke="${BS}" stroke-width="${BSW}"/>
-    <rect x="5"  y="77" width="11" height="36" rx="5.5" fill="${BF}" stroke="${BS}" stroke-width="${BSW}"/>
-    <rect x="64" y="77" width="11" height="36" rx="5.5" fill="${BF}" stroke="${BS}" stroke-width="${BSW}"/>`;
-
-  const frontMuscles = `
-    <!-- Chest -->
-    <ellipse cx="30" cy="50" rx="10" ry="12" fill="${C('chest')}" opacity="${O('chest')}" style="${G('chest')}"/>
-    <ellipse cx="50" cy="50" rx="10" ry="12" fill="${C('chest')}" opacity="${O('chest')}" style="${G('chest')}"/>
-    <!-- Front deltoid -->
-    <ellipse cx="16" cy="33" rx="9" ry="8" fill="${C('frontDelt')}" opacity="${O('frontDelt')}" style="${G('frontDelt')}"/>
-    <ellipse cx="64" cy="33" rx="9" ry="8" fill="${C('frontDelt')}" opacity="${O('frontDelt')}" style="${G('frontDelt')}"/>
-    <!-- Mid deltoid -->
-    <ellipse cx="6"  cy="44" rx="5" ry="8" fill="${C('midDelt')}" opacity="${O('midDelt')}" style="${G('midDelt')}"/>
-    <ellipse cx="74" cy="44" rx="5" ry="8" fill="${C('midDelt')}" opacity="${O('midDelt')}" style="${G('midDelt')}"/>
-    <!-- Biceps -->
-    <ellipse cx="8"  cy="56" rx="5" ry="13" fill="${C('biceps')}" opacity="${O('biceps')}" style="${G('biceps')}"/>
-    <ellipse cx="72" cy="56" rx="5" ry="13" fill="${C('biceps')}" opacity="${O('biceps')}" style="${G('biceps')}"/>
-    <!-- Triceps front (partial) -->
-    <ellipse cx="5"  cy="56" rx="3" ry="11" fill="${C('triceps')}" opacity="${s.has('triceps')?'0.65':'0.4'}" style="${G('triceps')}"/>
-    <ellipse cx="75" cy="56" rx="3" ry="11" fill="${C('triceps')}" opacity="${s.has('triceps')?'0.65':'0.4'}" style="${G('triceps')}"/>
-    <!-- Abs -->
-    <rect x="31" y="64" width="7" height="8" rx="2" fill="${C('abs')}" opacity="${O('abs')}" style="${G('abs')}"/>
-    <rect x="42" y="64" width="7" height="8" rx="2" fill="${C('abs')}" opacity="${O('abs')}" style="${G('abs')}"/>
-    <rect x="31" y="75" width="7" height="8" rx="2" fill="${C('abs')}" opacity="${O('abs')}" style="${G('abs')}"/>
-    <rect x="42" y="75" width="7" height="8" rx="2" fill="${C('abs')}" opacity="${O('abs')}" style="${G('abs')}"/>
-    <rect x="31" y="86" width="7" height="8" rx="2" fill="${C('core')}" opacity="${O('core')}" style="${G('core')}"/>
-    <rect x="42" y="86" width="7" height="8" rx="2" fill="${C('core')}" opacity="${O('core')}" style="${G('core')}"/>
-    <!-- Obliques -->
-    <ellipse cx="24" cy="80" rx="6" ry="14" fill="${C('obliques')}" opacity="${O('obliques')}" style="${G('obliques')}"/>
-    <ellipse cx="56" cy="80" rx="6" ry="14" fill="${C('obliques')}" opacity="${O('obliques')}" style="${G('obliques')}"/>`;
-
-  const backMuscles = `
-    <!-- Traps -->
-    <path d="M26,27 L40,40 L54,27 L48,22 L32,22 Z" fill="${C('traps')}" opacity="${O('traps')}" style="${G('traps')}"/>
-    <!-- Rear deltoid -->
-    <ellipse cx="16" cy="33" rx="9" ry="8" fill="${C('rearDelt')}" opacity="${O('rearDelt')}" style="${G('rearDelt')}"/>
-    <ellipse cx="64" cy="33" rx="9" ry="8" fill="${C('rearDelt')}" opacity="${O('rearDelt')}" style="${G('rearDelt')}"/>
-    <!-- Triceps (full back view) -->
-    <ellipse cx="8"  cy="56" rx="5" ry="14" fill="${C('triceps')}" opacity="${O('triceps')}" style="${G('triceps')}"/>
-    <ellipse cx="72" cy="56" rx="5" ry="14" fill="${C('triceps')}" opacity="${O('triceps')}" style="${G('triceps')}"/>
-    <!-- Lats -->
-    <path d="M20,38 C13,52 11,70 17,88 L30,88 L30,38 Z" fill="${C('lats')}" opacity="${O('lats')}" style="${G('lats')}"/>
-    <path d="M60,38 C67,52 69,70 63,88 L50,88 L50,38 Z" fill="${C('lats')}" opacity="${O('lats')}" style="${G('lats')}"/>
-    <!-- Upper back -->
-    <rect x="30" y="40" width="20" height="17" rx="4" fill="${C('upperBack')}" opacity="${O('upperBack')}" style="${G('upperBack')}"/>
-    <!-- Rhomboids -->
-    <rect x="30" y="54" width="20" height="16" rx="3" fill="${C('rhomboids')}" opacity="${O('rhomboids')}" style="${G('rhomboids')}"/>
-    <!-- Lower back -->
-    <ellipse cx="40" cy="90" rx="13" ry="10" fill="${C('lowerBack')}" opacity="${O('lowerBack')}" style="${G('lowerBack')}"/>
-    <ellipse cx="40" cy="90" rx="13" ry="10" fill="${C('core')}" opacity="${s.has('core')?O('core'):'0'}" style="${G('core')}"/>`;
-
-  return `<div class="muscle-diagram">
-    <div class="muscle-diagram-title">שרירים פעילים</div>
-    <div class="muscle-views">
-      <div class="muscle-view">
-        <div class="muscle-view-label">קדמי</div>
-        <svg viewBox="0 0 80 116" xmlns="http://www.w3.org/2000/svg">
-          ${bodyParts}${frontMuscles}
-        </svg>
-      </div>
-      <div class="muscle-view">
-        <div class="muscle-view-label">אחורי</div>
-        <svg viewBox="0 0 80 116" xmlns="http://www.w3.org/2000/svg">
-          ${bodyParts}${backMuscles}
-        </svg>
-      </div>
-    </div>
-  </div>`;
-}
 
 // ════════════════════════════════════════════════════════════
 // SETUP BOX
@@ -651,17 +540,13 @@ function daysAgo(id) {
   return Math.floor((Date.now() - new Date(s).getTime()) / 86400000);
 }
 function totalSets(id) { return WD[id].exercises.reduce((s, e) => s + e.sets, 0); }
-function photo(kw) { return `https://source.unsplash.com/400x300/?${encodeURIComponent(kw)}`; }
 
 // ════════════════════════════════════════════════════════════
 // SHARED CARD PARTS
 // ════════════════════════════════════════════════════════════
-function photoEl(kw, name) {
+function photoEl(img, name) {
   return `<div class="photo-wrap">
-    <div class="photo-placeholder">🏋️</div>
-    <img class="photo-img" src="${photo(kw)}" alt="${name}" loading="lazy"
-      onload="this.previousElementSibling.style.display='none'"
-      onerror="this.style.display='none'">
+    <img class="photo-img" src="${img}" alt="${name}" loading="lazy">
     <div class="photo-overlay"></div>
     <div class="photo-name">${name}</div>
   </div>`;
@@ -698,8 +583,7 @@ function renderOverview() {
 
   const exCards = w.exercises.map((ex, i) => `
     <div class="exercise-card fade-up" style="animation-delay:${i*50}ms">
-      ${photoEl(ex.kw, ex.name)}
-      ${muscleSVG(ex.mk)}
+      ${photoEl(ex.img, ex.name)}
       <div class="card-meta">
         <span class="meta-item">📋 <strong>${ex.sets}</strong> סטים</span>
         <span class="meta-item">🔁 <strong>${ex.reps}</strong></span>
@@ -750,8 +634,7 @@ function renderWorkout() {
   document.getElementById('main').innerHTML = `
     <div class="ex-dots">${dots}</div>
     <div class="exercise-card fade-up">
-      ${photoEl(ex.kw, ex.name)}
-      ${muscleSVG(ex.mk)}
+      ${photoEl(ex.img, ex.name)}
       <div class="ex-num">תרגיל ${exIdx+1} מתוך ${w.exercises.length}</div>
       <div class="card-meta" style="padding:8px 16px 0">${tagsHtml(ex.muscles)}</div>
       <div class="sets-section">
