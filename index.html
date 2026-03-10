@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>אימון אילן 💪</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0c0e14;
+      --bg2:     #13151e;
+      --bg3:     #1a1d29;
+      --accent:  #e8ff47;
+      --adim:    rgba(232,255,71,0.12);
+      --text:    #f0f0f0;
+      --muted:   #8a8fa8;
+      --red:     #ff5757;
+      --blue:    #4e9fff;
+      --green:   #47ffa3;
+      --purple:  #b47fff;
+      --orange:  #ffb347;
+      --r:       16px;
+      --shadow:  0 4px 24px rgba(0,0,0,0.45);
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Heebo', sans-serif;
+      direction: rtl;
+      overflow-x: hidden;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────── */
+    .header {
+      background: var(--bg2);
+      padding: 14px 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05);
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .greeting { font-size: 20px; font-weight: 700; }
+
+    .progress-wrap {
+      display: none;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 120px;
+      text-align: left;
+    }
+    .progress-wrap.show { display: flex; }
+    .progress-label { font-size: 11px; color: var(--muted); font-weight: 500; text-align: right; }
+    .progress-track {
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 2px; }
+    .tab {
+      flex: 1;
+      padding: 10px 6px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: var(--muted);
+      font-family: 'Heebo', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      line-height: 1.2;
+    }
+    .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ─── MAIN ────────────────────────────────────────────── */
+    .main {
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+      padding-bottom: 80px;
+    }
+
+    /* ─── OVERVIEW ────────────────────────────────────────── */
+    .workout-title { font-size: 28px; font-weight: 900; margin-bottom: 2px; }
+    .workout-subtitle { font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+    .last-done {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg3);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .start-btn {
+      width: 100%;
+      padding: 18px;
+      background: var(--accent);
+      color: #0c0e14;
+      border: none;
+      border-radius: var(--r);
+      font-family: 'Heebo', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s, opacity 0.12s;
+      margin-bottom: 20px;
+      min-height: 56px;
+    }
+    .start-btn:active { transform: scale(0.98); opacity: 0.88; }
+
+    /* ─── EXERCISE CARDS ──────────────────────────────────── */
+    .exercise-list { display: flex; flex-direction: column; gap: 16px; }
+    .exercise-card {
+      background: var(--bg2);
+      border-radius: var(--r);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .photo-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      background: var(--bg3);
+      overflow: hidden;
+    }
+    .photo-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      background: linear-gradient(135deg, #1a1d29, #0c0e14);
+    }
+    .photo-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .photo-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(12,14,20,0.92) 0%, rgba(12,14,20,0.25) 55%, transparent 100%);
+    }
+    .photo-name {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      left: 14px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+    }
+
+    .card-meta {
+      display: flex;
+      gap: 14px;
+      padding: 10px 16px 0;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .meta-item strong { color: var(--accent); font-weight: 700; }
+
+    .card-body { padding: 10px 16px 16px; }
+
+    .muscle-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+    .mtag {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .ex-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #c4c8d8;
+      margin-bottom: 10px;
+    }
+    .safety-box {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: rgba(255,87,87,0.08);
+      border: 1px solid rgba(255,87,87,0.2);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #ff9a9a;
+      line-height: 1.5;
+    }
+
+    /* ─── WORKOUT MODE ────────────────────────────────────── */
+    .ex-dots {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .ex-dot {
+      height: 5px;
+      flex: 1;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      transition: background 0.3s;
+    }
+    .ex-dot.done    { background: var(--accent); }
+    .ex-dot.current { background: rgba(232,255,71,0.5); }
+
+    .ex-num {
+      font-size: 12px;
+      color: var(--muted);
+      padding: 10px 16px 0;
+      font-weight: 500;
+    }
+
+    .sets-section { padding: 14px 16px 16px; }
+    .sets-label { font-size: 13px; color: var(--muted); margin-bottom: 10px; font-weight: 500; }
+
+    .set-circles { display: flex; gap: 10px; margin-bottom: 18px; }
+    .set-circle {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      border: 2px solid rgba(255,255,255,0.1);
+      background: var(--bg3);
+      color: var(--muted);
+      transition: all 0.35s;
+      flex-shrink: 0;
+    }
+    .set-circle.current {
+      border-color: var(--accent);
+      background: var(--adim);
+      color: var(--accent);
+      box-shadow: 0 0 18px rgba(232,255,71,0.25);
+    }
+    .set-circle.done {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #0c0e14;
+    }
+
+    .reps-big { font-size: 38px; font-weight: 900; color: var(--accent); line-height: 1; margin-bottom: 2px; }
+    .reps-sub { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+
+    .do-set-btn {
+      width: 100%;
+      padding: 18px;
+      background: var(--accent);
+      color: #0c0e14;
+      border: none;
+      border-radius: var(--r);
+      font-family: 'Heebo', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.12s, opacity 0.12s;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .do-set-btn:active  { transform: scale(0.98); opacity: 0.88; }
+    .do-set-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+    .next-up {
+      background: var(--bg3);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--r);
+      padding: 12px 16px;
+      margin-top: 12px;
+    }
+    .next-up-label { font-size: 11px; color: var(--muted); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .next-up-name  { font-size: 15px; font-weight: 700; }
+
+    .exit-btn {
+      width: 100%;
+      padding: 14px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--r);
+      color: var(--muted);
+      font-family: 'Heebo', sans-serif;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 12px;
+      min-height: 48px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .exit-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+    /* ─── REST TIMER OVERLAY ──────────────────────────────── */
+    .rest-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(12,14,20,0.97);
+      z-index: 300;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+    .rest-overlay.show { display: flex; }
+
+    .rest-title { font-size: 18px; font-weight: 700; color: var(--muted); }
+
+    .timer-wrap { position: relative; width: 200px; height: 200px; }
+    .timer-svg  { transform: rotate(-90deg); display: block; }
+    .t-bg { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 9; }
+    .t-fg {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 9;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s linear;
+    }
+    .timer-num {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    .rest-next-label { font-size: 13px; color: var(--muted); text-align: center; padding: 0 24px; }
+
+    .skip-btn {
+      padding: 12px 34px;
+      background: var(--bg3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 30px;
+      color: var(--text);
+      font-family: 'Heebo', sans-serif;
+      font-size: 15px;
+      cursor: pointer;
+      min-height: 48px;
+      transition: background 0.2s;
+    }
+    .skip-btn:hover { background: var(--bg2); }
+
+    /* ─── COMPLETION ──────────────────────────────────────── */
+    .completion {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px 24px;
+      min-height: 70vh;
+    }
+    .completion.show { display: flex; }
+    .comp-emoji {
+      font-size: 80px;
+      margin-bottom: 18px;
+      animation: bounce 0.7s ease infinite alternate;
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-14px); }
+    }
+    .comp-title { font-size: 32px; font-weight: 900; margin-bottom: 6px; }
+    .comp-sub   { font-size: 16px; color: var(--muted); margin-bottom: 28px; }
+    .comp-stats { display: flex; gap: 28px; margin-bottom: 32px; }
+    .comp-stat  { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .comp-val   { font-size: 34px; font-weight: 900; color: var(--accent); }
+    .comp-lbl   { font-size: 12px; color: var(--muted); }
+    .home-btn {
+      padding: 16px 44px;
+      background: var(--accent);
+      color: #0c0e14;
+      border: none;
+      border-radius: var(--r);
+      font-family: 'Heebo', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 56px;
+    }
+
+    /* ─── CONFETTI ────────────────────────────────────────── */
+    #confetti {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 400;
+      overflow: hidden;
+    }
+    .confetti-p {
+      position: absolute;
+      top: -12px;
+      animation: fall linear forwards;
+      border-radius: 2px;
+    }
+    @keyframes fall {
+      to { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.3s ease both; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header" id="hdr">
+  <div class="header-top">
+    <div class="greeting">שלום אילן 💪</div>
+    <div class="progress-wrap" id="progWrap">
+      <div class="progress-label" id="progLabel">0%</div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progFill"></div>
+      </div>
+    </div>
+  </div>
+  <div class="tabs" id="tabs">
+    <button class="tab active" onclick="gotoWorkout('a')">אימון א<br><small style="font-size:10px;font-weight:300">חזה · טריצפס · כתפיים</small></button>
+    <button class="tab"        onclick="gotoWorkout('b')">אימון ב<br><small style="font-size:10px;font-weight:300">גב · ביצפס</small></button>
+    <button class="tab"        onclick="gotoWorkout('c')">אימון ג<br><small style="font-size:10px;font-weight:300">פלג עליון · ליבה</small></button>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main" id="main"></div>
+
+<!-- REST TIMER OVERLAY -->
+<div class="rest-overlay" id="restOverlay">
+  <div class="rest-title">זמן מנוחה</div>
+  <div class="timer-wrap">
+    <svg class="timer-svg" width="200" height="200" viewBox="0 0 200 200">
+      <circle class="t-bg" cx="100" cy="100" r="88"/>
+      <circle class="t-fg" id="tArc" cx="100" cy="100" r="88"
+        stroke-dasharray="553" stroke-dashoffset="0"/>
+    </svg>
+    <div class="timer-num" id="tNum">75</div>
+  </div>
+  <div class="rest-next-label" id="restNextLbl"></div>
+  <button class="skip-btn" onclick="skipRest()">דלג על המנוחה ←</button>
+</div>
+
+<!-- CONFETTI -->
+<div id="confetti"></div>
+
+<script>
+// ════════════════════════════════════════════════════════════
+// DATA
+// ════════════════════════════════════════════════════════════
+const WD = {
+  a: {
+    id: 'a', name: 'אימון א', sub: 'חזה + טריצפס + כתפיים',
+    exercises: [
+      {
+        name: 'לחיצת חזה עם משקולות', kw: 'dumbbell bench press',
+        muscles: [
+          { l: 'חזה',            c: '#4e9fff' },
+          { l: 'טריצפס',         c: '#ff6b6b' },
+          { l: 'כתפיים קדמיות',  c: '#47ffa3' }
+        ],
+        desc: 'שכב על ספסל שטוח עם משקולת בכל יד בגובה החזה. דחוף את המשקולות כלפי מעלה עד יישור מלא של הזרועות תוך קיבוץ חזה בסיום. הורד לאט ובשליטה עם מרפקים בזווית 45° מהגוף.',
+        safety: 'אל תנתר את המשקולות מהחזה — הורד לאט ושמור על גב צמוד לספסל',
+        sets: 3, reps: '12 חזרות', rest: 75
+      },
+      {
+        name: 'פתיחות משקולות בשיפוע', kw: 'incline dumbbell fly',
+        muscles: [
+          { l: 'חזה עליון',  c: '#4e9fff' },
+          { l: 'כתפיים',     c: '#47ffa3' }
+        ],
+        desc: 'שכב על ספסל בזווית 30–45°. פתח את הידיים לצדדים עם מרפק קצת כפוף עד שתחוש מתיחה בחזה. חזור למעלה בתנועה מקשתית תוך סגירת הידיים מעל החזה.',
+        safety: 'עצור כשהמרפקים בגובה הכתפיים — ירידה עמוקה מדי פוגעת בכתף',
+        sets: 3, reps: '12 חזרות', rest: 75
+      },
+      {
+        name: 'דיפס משקל גוף', kw: 'dips triceps gym',
+        muscles: [
+          { l: 'טריצפס',  c: '#ff6b6b' },
+          { l: 'חזה',     c: '#4e9fff' },
+          { l: 'כתפיים',  c: '#47ffa3' }
+        ],
+        desc: 'החזק את הגוף על ידיות הדיפס עם גוף זקוף. כופף מרפקים ורד עד שהכתפיים בגובה המרפקים. דחוף חזרה עד יישור מלא — גוף זקוף מעביר עבודה לטריצפס.',
+        safety: 'אל תרד נמוך מדי — שים לב לכאב חד בכתפיים ועצור מיד',
+        sets: 3, reps: '10 חזרות', rest: 75
+      },
+      {
+        name: 'לחיצת כתפיים עם משקולות בישיבה', kw: 'shoulder press dumbbell',
+        muscles: [
+          { l: 'דלתא קדמי',  c: '#47ffa3' },
+          { l: 'טריצפס',     c: '#ff6b6b' },
+          { l: 'טרפז',       c: '#b47fff' }
+        ],
+        desc: 'שב על ספסל עם גב תמוך. החזק משקולות בגובה הכתפיים, כפות ידיים קדימה. דחוף למעלה עד יישור הזרועות מעל הראש, הורד לאט חזרה לנקודת ההתחלה.',
+        safety: 'שמור על גב צמוד לספסל — אל תתקמר לאחור תחת משקל כבד',
+        sets: 3, reps: '12 חזרות', rest: 75
+      },
+      {
+        name: 'הרמות צדיות', kw: 'lateral raises shoulders',
+        muscles: [
+          { l: 'דלתא אמצעי',  c: '#47ffa3' },
+          { l: 'טרפז עליון',  c: '#b47fff' }
+        ],
+        desc: 'עמוד זקוף עם משקולות קלות. הרם את הידיים לצדדים עד גובה הכתפיים עם מרפק קצת כפוף. הורד לאט תוך 2 שניות. תנועה נקייה חשובה יותר ממשקל כבד.',
+        safety: 'אל תנדנד את הגוף כדי לעזור — זה מוריד עבודה מהכתף',
+        sets: 3, reps: '15 חזרות', rest: 60
+      }
+    ]
+  },
+  b: {
+    id: 'b', name: 'אימון ב', sub: 'גב + ביצפס',
+    exercises: [
+      {
+        name: 'מתח רחב', kw: 'lat pulldown gym',
+        muscles: [
+          { l: 'לאטיסימוס',  c: '#4e9fff' },
+          { l: 'ביצפס',      c: '#ff6b6b' },
+          { l: 'גב עליון',   c: '#b47fff' }
+        ],
+        desc: 'שב במכונת לאט-פולדאון עם אחיזה רחבה מעבר לרוחב הכתפיים. משוך את הבר לכיוון החזה העליון תוך כיפוף מרפקים ולחיצת עצמות השכם זו לזו. הרחק לאט.',
+        safety: 'אל תמשוך עם תנועת גוף — שמור על ישיבה יציבה ונשען מעט לאחור בלבד',
+        sets: 3, reps: '12 חזרות', rest: 75
+      },
+      {
+        name: 'חתירה חד-צדדית עם משקולת', kw: 'dumbbell row back',
+        muscles: [
+          { l: 'גב רחב',      c: '#4e9fff' },
+          { l: 'ביצפס',       c: '#ff6b6b' },
+          { l: 'רומבואיד',    c: '#b47fff' }
+        ],
+        desc: 'הישען עם יד אחת על ספסל, רגל נגדית על הרצפה. החזק משקולת ביד השנייה ומשוך לכיוון הירך תוך כיפוף מרפק. שמור על גב ישר ומקביל לרצפה.',
+        safety: 'אל תסובב את האגן — שמור על גב ישר לאורך כל התנועה',
+        sets: 3, reps: '12 חזרות', rest: 75
+      },
+      {
+        name: 'חתירה אופקית בכבל', kw: 'cable row back gym',
+        muscles: [
+          { l: 'גב אמצעי',  c: '#4e9fff' },
+          { l: 'ביצפס',     c: '#ff6b6b' },
+          { l: 'טרפז',      c: '#b47fff' }
+        ],
+        desc: 'שב מול מכשיר הכבל עם ברכיים כפופות קלות ורגליים על הפלטפורמה. משוך את הידית לכיוון הבטן תוך לחיצת עצמות השכם יחד. הרחק לאט.',
+        safety: 'אל תשתמש בתנועת גוף — הנע רק את הזרועות ושמור על גב ישר',
+        sets: 3, reps: '12 חזרות', rest: 75
+      },
+      {
+        name: 'כפיפת ביצפס לסירוגין', kw: 'bicep curl dumbbell',
+        muscles: [
+          { l: 'ביצפס',        c: '#ff6b6b' },
+          { l: 'ברכיאליס',    c: '#ffb347' }
+        ],
+        desc: 'עמוד עם משקולות בשתי הידיים לצד הגוף. כפוף יד אחת לכיוון הכתף תוך סיבוב כף היד כלפי מעלה בסוף התנועה. הורד לאט וחזור עם היד השנייה.',
+        safety: 'שמור על מרפקים צמודים לגוף — מרפק שנע קדימה "גונב" עבודה מהכתף',
+        sets: 3, reps: '12 חזרות', rest: 60
+      },
+      {
+        name: 'פייס פול בגלגלת', kw: 'face pull cable gym',
+        muscles: [
+          { l: 'דלתא אחורי',   c: '#47ffa3' },
+          { l: 'כתף חיצונית',  c: '#4e9fff' },
+          { l: 'טרפז',         c: '#b47fff' }
+        ],
+        desc: 'קבע את הכבל בגובה הפנים עם חבל. משוך לכיוון הפנים תוך פתיחת הידיים לצדדים והחזקת מרפקים גבוה. זהו תרגיל חיוני לבריאות הכתפיים ולתיקון יציבה.',
+        safety: 'אל תמשוך עם משקל כבד מדי — תנועה נקייה היא העיקר',
+        sets: 3, reps: '15 חזרות', rest: 60
+      }
+    ]
+  },
+  c: {
+    id: 'c', name: 'אימון ג', sub: 'פלג גוף עליון מלא + ליבה',
+    exercises: [
+      {
+        name: 'מתח (עם עזרה אם צריך)', kw: 'pull up bar gym',
+        muscles: [
+          { l: 'לאטיסימוס',  c: '#4e9fff' },
+          { l: 'ביצפס',      c: '#ff6b6b' },
+          { l: 'גב כללי',    c: '#b47fff' }
+        ],
+        desc: 'תלה על מוט עם אחיזה רחבה מעבר לרוחב הכתפיים. משוך את הגוף למעלה עד שהסנטר בגובה המוט. אם קשה — השתמש ברצועת גומי לעזרה או במכונה מסייעת.',
+        safety: 'עלה וירד בשליטה מלאה — אל תנתר מטה ותסמוך על האינרציה',
+        sets: 3, reps: '8 חזרות', rest: 90
+      },
+      {
+        name: 'לחיצת משקולות בשיפוע', kw: 'incline dumbbell press',
+        muscles: [
+          { l: 'חזה עליון',  c: '#4e9fff' },
+          { l: 'טריצפס',     c: '#ff6b6b' },
+          { l: 'כתפיים',     c: '#47ffa3' }
+        ],
+        desc: 'שכב על ספסל בזווית 30–45°. החזק משקולות בגובה החזה העליון ודחוף למעלה עד יישור הזרועות. הורד לאט ובשליטה לנקודת ההתחלה עם מרפקים ב-45° מהגוף.',
+        safety: 'שמור על גב מלא על הספסל — אל תרים את הגב ממנו',
+        sets: 3, reps: '12 חזרות', rest: 75
+      },
+      {
+        name: 'חתירת מוט', kw: 'barbell row back',
+        muscles: [
+          { l: 'גב רחב',     c: '#4e9fff' },
+          { l: 'ביצפס',      c: '#ff6b6b' },
+          { l: 'ירך אחורי',  c: '#b47fff' }
+        ],
+        desc: 'עמוד עם ברכיים כפופות קלות ואחוז במוט ברוחב הכתפיים. כפוף את הגוף קדימה בזווית 45°. משוך את המוט לכיוון הבטן תוך לחיצת עצמות השכם יחד. הורד לאט.',
+        safety: 'גב ישר לאורך כל התרגיל — עיגול הגב עם משקל כבד מסוכן',
+        sets: 3, reps: '12 חזרות', rest: 75
+      },
+      {
+        name: 'פלאנק', kw: 'plank core exercise',
+        muscles: [
+          { l: 'ליבה',       c: '#e8ff47' },
+          { l: 'בטן',        c: '#47ffa3' },
+          { l: 'גב תחתון',   c: '#4e9fff' }
+        ],
+        desc: 'שכב על הבטן ועלה על אמות הידיים וקצות הרגליים. שמור על הגוף בקו ישר מראש ועד עקבים. כווץ בטן ועכוז ונשום בשווה לאורך כל הסט.',
+        safety: 'אל תרים ישבן ואל תוריד ירכיים — גוף ישר מראש לרגליים',
+        sets: 3, reps: '45 שניות', rest: 60
+      },
+      {
+        name: "קראנץ' אופניים", kw: 'bicycle crunch abs',
+        muscles: [
+          { l: 'בטן אלכסוני',  c: '#47ffa3' },
+          { l: 'בטן',          c: '#e8ff47' },
+          { l: 'ירך קדמי',     c: '#4e9fff' }
+        ],
+        desc: "שכב על הגב עם ידיים מאחורי הראש. הבא ברך שמאל לכיוון המרפק הימני תוך הארכת הרגל הימנית. חלוף בין הצדדים בתנועה אחידה כמו רכיבה על אופניים.",
+        safety: "אל תמשוך את הצוואר — הידיים לתמיכה בלבד, הכוח מהבטן",
+        sets: 3, reps: '20 חזרות', rest: 60
+      }
+    ]
+  }
+};
+
+// ════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════
+let wid       = 'a';   // current workout id
+let inWorkout = false;
+let exIdx     = 0;
+let setIdx    = 0;
+let setsCount = 0;     // sets completed this session
+
+let timerIv     = null;
+let timerSec    = 0;
+let timerTotal  = 0;
+let timerCb     = null;
+
+let audioCtx = null;
+
+// ════════════════════════════════════════════════════════════
+// AUDIO / VIBRATE
+// ════════════════════════════════════════════════════════════
+function beep() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const play = (freq, t0, dur, vol = 0.45) => {
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      o.type = 'sine';
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(vol, t0);
+      g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+      o.start(t0); o.stop(t0 + dur);
+    };
+    const now = audioCtx.currentTime;
+    play(660, now,       0.18);
+    play(880, now + 0.2, 0.18);
+    play(1100,now + 0.4, 0.28);
+  } catch(e) {}
+}
+
+function vibrate() {
+  try { if (navigator.vibrate) navigator.vibrate([150, 80, 150]); } catch(e) {}
+}
+
+// ════════════════════════════════════════════════════════════
+// STORAGE
+// ════════════════════════════════════════════════════════════
+const KEY = id => `ilan_wk_${id}`;
+
+function saveDate(id) {
+  localStorage.setItem(KEY(id), new Date().toISOString());
+}
+
+function daysAgo(id) {
+  const s = localStorage.getItem(KEY(id));
+  if (!s) return null;
+  return Math.floor((Date.now() - new Date(s).getTime()) / 86400000);
+}
+
+// ════════════════════════════════════════════════════════════
+// HELPERS
+// ════════════════════════════════════════════════════════════
+function totalSets(id) {
+  return WD[id].exercises.reduce((s, e) => s + e.sets, 0);
+}
+
+function photo(kw) {
+  return `https://source.unsplash.com/400x300/?${encodeURIComponent(kw)}`;
+}
+
+function photoEl(kw, name) {
+  return `
+    <div class="photo-wrap">
+      <div class="photo-placeholder">🏋️</div>
+      <img class="photo-img"
+        src="${photo(kw)}" alt="${name}" loading="lazy"
+        onload="this.previousElementSibling.style.display='none'"
+        onerror="this.style.display='none'">
+      <div class="photo-overlay"></div>
+      <div class="photo-name">${name}</div>
+    </div>`;
+}
+
+function tagsHtml(muscles) {
+  return muscles.map(m =>
+    `<span class="mtag" style="background:${m.c}1a;color:${m.c};border:1px solid ${m.c}44">${m.l}</span>`
+  ).join('');
+}
+
+// ════════════════════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════════════════════
+function gotoWorkout(id) {
+  wid = id;
+  inWorkout = false;
+  exIdx = 0; setIdx = 0; setsCount = 0;
+  stopTimer();
+  document.getElementById('restOverlay').classList.remove('show');
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', ['a','b','c'][i] === id);
+  });
+  render();
+}
+
+// ════════════════════════════════════════════════════════════
+// RENDER DISPATCH
+// ════════════════════════════════════════════════════════════
+function render() {
+  if (inWorkout) renderWorkout();
+  else           renderOverview();
+  updateProgress();
+}
+
+// ════════════════════════════════════════════════════════════
+// OVERVIEW
+// ════════════════════════════════════════════════════════════
+function renderOverview() {
+  const w  = WD[wid];
+  const da = daysAgo(wid);
+
+  let badge = '';
+  if (da === null)     badge = '🗓️ טרם בוצע';
+  else if (da === 0)   badge = '✅ בוצע היום';
+  else if (da === 1)   badge = '🗓️ בפעם האחרונה: אתמול';
+  else                 badge = `🗓️ בפעם האחרונה: לפני ${da} ימים`;
+
+  const exCards = w.exercises.map((ex, i) => `
+    <div class="exercise-card fade-up" style="animation-delay:${i*50}ms">
+      ${photoEl(ex.kw, ex.name)}
+      <div class="card-meta">
+        <span class="meta-item">📋 <strong>${ex.sets}</strong> סטים</span>
+        <span class="meta-item">🔁 <strong>${ex.reps}</strong></span>
+        <span class="meta-item">⏱️ מנוחה <strong>${ex.rest}″</strong></span>
+      </div>
+      <div class="card-body">
+        <div class="muscle-tags">${tagsHtml(ex.muscles)}</div>
+        <p class="ex-desc">${ex.desc}</p>
+        <div class="safety-box"><span>⚠️</span><span>${ex.safety}</span></div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('main').innerHTML = `
+    <div style="margin-bottom:16px">
+      <div class="workout-title">${w.name}</div>
+      <div class="workout-subtitle">${w.sub}</div>
+      <span class="last-done">${badge}</span>
+    </div>
+    <button class="start-btn" onclick="startWorkout()">🏋️ התחל אימון</button>
+    <div class="exercise-list">${exCards}</div>
+  `;
+
+  document.getElementById('progWrap').classList.remove('show');
+}
+
+// ════════════════════════════════════════════════════════════
+// WORKOUT MODE
+// ════════════════════════════════════════════════════════════
+function renderWorkout() {
+  const w   = WD[wid];
+  const ex  = w.exercises[exIdx];
+
+  const dots = w.exercises.map((_, i) => {
+    const cls = i < exIdx ? 'ex-dot done' : i === exIdx ? 'ex-dot current' : 'ex-dot';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+
+  const circles = Array.from({length: ex.sets}, (_, i) => {
+    let cls  = 'set-circle';
+    let txt  = `סט ${i+1}`;
+    if      (i < setIdx)  { cls += ' done';    txt = '✓'; }
+    else if (i === setIdx) { cls += ' current'; }
+    return `<div class="${cls}">${txt}</div>`;
+  }).join('');
+
+  const nextHtml = exIdx < w.exercises.length - 1
+    ? `<div class="next-up">
+        <div class="next-up-label">הבא:</div>
+        <div class="next-up-name">${w.exercises[exIdx+1].name}</div>
+       </div>` : '';
+
+  document.getElementById('main').innerHTML = `
+    <div class="ex-dots">${dots}</div>
+    <div class="exercise-card fade-up">
+      ${photoEl(ex.kw, ex.name)}
+      <div class="ex-num">תרגיל ${exIdx+1} מתוך ${w.exercises.length}</div>
+      <div class="card-meta" style="padding:8px 16px 0">
+        ${tagsHtml(ex.muscles)}
+      </div>
+      <div class="sets-section">
+        <div class="sets-label">סטים</div>
+        <div class="set-circles">${circles}</div>
+        <div class="reps-big">${ex.reps}</div>
+        <div class="reps-sub">לסט הנוכחי</div>
+        <button class="do-set-btn" id="doSetBtn" onclick="completeSet()">
+          ✓ סיימתי את הסט
+        </button>
+      </div>
+      <div style="padding:0 16px 16px">
+        <div class="safety-box"><span>⚠️</span><span>${ex.safety}</span></div>
+      </div>
+    </div>
+    ${nextHtml}
+    <button class="exit-btn" onclick="confirmExit()">✕ צא מהאימון</button>
+  `;
+
+  document.getElementById('progWrap').classList.add('show');
+}
+
+function updateProgress() {
+  if (!inWorkout) return;
+  const tot = totalSets(wid);
+  const pct = Math.round((setsCount / tot) * 100);
+  document.getElementById('progFill').style.width  = pct + '%';
+  document.getElementById('progLabel').textContent = `${setsCount} / ${tot} סטים`;
+}
+
+// ════════════════════════════════════════════════════════════
+// WORKOUT LOGIC
+// ════════════════════════════════════════════════════════════
+function startWorkout() {
+  inWorkout = true; exIdx = 0; setIdx = 0; setsCount = 0;
+  render();
+}
+
+function completeSet() {
+  const w    = WD[wid];
+  const ex   = w.exercises[exIdx];
+  const lastSet = setIdx >= ex.sets - 1;
+  const lastEx  = exIdx  >= w.exercises.length - 1;
+
+  setsCount++;
+  disableSetBtn();
+
+  if (lastSet && lastEx) {
+    // Done!
+    startTimer(ex.rest, () => showCompletion());
+    setRestNextLabel('🎉 האימון הסתיים!');
+  } else if (lastSet) {
+    // Move to next exercise
+    startTimer(ex.rest, () => {
+      exIdx++;
+      setIdx = 0;
+      render();
+    });
+    setRestNextLabel(`הבא: ${w.exercises[exIdx+1].name}`);
+  } else {
+    // Next set same exercise
+    setIdx++;
+    startTimer(ex.rest, () => render());
+    setRestNextLabel(`סט ${setIdx+1} מתוך ${ex.sets}`);
+  }
+}
+
+function disableSetBtn() {
+  const b = document.getElementById('doSetBtn');
+  if (b) b.disabled = true;
+}
+
+function confirmExit() {
+  if (confirm('לצאת מהאימון הנוכחי?')) {
+    stopTimer();
+    document.getElementById('restOverlay').classList.remove('show');
+    gotoWorkout(wid);
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+// REST TIMER
+// ════════════════════════════════════════════════════════════
+const CIRC = 2 * Math.PI * 88; // ~553
+
+function startTimer(secs, cb) {
+  timerSec   = secs;
+  timerTotal = secs;
+  timerCb    = cb;
+
+  updateTimerDisplay();
+  document.getElementById('restOverlay').classList.add('show');
+
+  if (timerIv) clearInterval(timerIv);
+  timerIv = setInterval(() => {
+    timerSec--;
+    updateTimerDisplay();
+    if (timerSec <= 0) {
+      stopTimer();
+      document.getElementById('restOverlay').classList.remove('show');
+      beep(); vibrate();
+      if (timerCb) { timerCb(); timerCb = null; }
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const offset = CIRC * (1 - timerSec / timerTotal);
+  document.getElementById('tNum').textContent = timerSec;
+  document.getElementById('tArc').style.strokeDashoffset = offset;
+}
+
+function stopTimer() {
+  if (timerIv) { clearInterval(timerIv); timerIv = null; }
+}
+
+function skipRest() {
+  stopTimer();
+  document.getElementById('restOverlay').classList.remove('show');
+  if (timerCb) { timerCb(); timerCb = null; }
+}
+
+function setRestNextLabel(txt) {
+  document.getElementById('restNextLbl').textContent = txt;
+}
+
+// ════════════════════════════════════════════════════════════
+// COMPLETION
+// ════════════════════════════════════════════════════════════
+function showCompletion() {
+  saveDate(wid);
+  inWorkout = false;
+  const w   = WD[wid];
+  const tot = totalSets(wid);
+
+  document.getElementById('progWrap').classList.remove('show');
+  document.getElementById('main').innerHTML = `
+    <div class="completion show">
+      <div class="comp-emoji">🔥</div>
+      <div class="comp-title">כל הכבוד אילן!</div>
+      <div class="comp-sub">סיימת את ${w.name} — ${w.sub}</div>
+      <div class="comp-stats">
+        <div class="comp-stat"><div class="comp-val">${tot}</div><div class="comp-lbl">סטים</div></div>
+        <div class="comp-stat"><div class="comp-val">${w.exercises.length}</div><div class="comp-lbl">תרגילים</div></div>
+        <div class="comp-stat"><div class="comp-val">💪</div><div class="comp-lbl">עשית זאת!</div></div>
+      </div>
+      <button class="home-btn" onclick="gotoWorkout('${wid}')">חזרה לתפריט</button>
+    </div>
+  `;
+
+  confetti();
+}
+
+// ════════════════════════════════════════════════════════════
+// CONFETTI
+// ════════════════════════════════════════════════════════════
+function confetti() {
+  const el  = document.getElementById('confetti');
+  const clr = ['#e8ff47','#ff6b6b','#4e9fff','#47ffa3','#b47fff','#ffb347','#fff'];
+  el.innerHTML = '';
+  for (let i = 0; i < 90; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-p';
+    const sz = Math.random() * 10 + 5;
+    p.style.cssText = [
+      `left:${Math.random()*100}vw`,
+      `width:${sz}px`,
+      `height:${sz}px`,
+      `background:${clr[Math.floor(Math.random()*clr.length)]}`,
+      `border-radius:${Math.random()>.5?'50%':'3px'}`,
+      `animation-duration:${Math.random()*2+2}s`,
+      `animation-delay:${Math.random()*1.5}s`,
+    ].join(';');
+    el.appendChild(p);
+  }
+  setTimeout(() => el.innerHTML = '', 5000);
+}
+
+// ════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════
+gotoWorkout('a');
+</script>
+</body>
+</html>
